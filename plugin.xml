@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="ru.rustore.gdevelop.pay" version="1.0.0"
+        xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+  <name>RuStore Pay for GDevelop</name>
+  <description>Мост RuStore Pay SDK для GDevelop/Cordova.</description>
+  <license>MIT</license>
+  <keywords>rustore,pay,iap,gdevelop,cordova</keywords>
+
+  <engines>
+    <engine name="cordova-android" version=">=12.0.0" />
+  </engines>
+
+  <js-module src="www/RuStoreGDevelopPay.js" name="RuStoreGDevelopPay">
+    <clobbers target="cordova.plugins.RuStoreGDevelopPay" />
+  </js-module>
+
+  <platform name="android">
+    <config-file target="res/xml/config.xml" parent="/*">
+      <feature name="RuStoreGDevelopPay">
+        <param name="android-package" value="ru.rustore.gdevelop.pay.RuStoreGDevelopPay" />
+      </feature>
+    </config-file>
+
+    <config-file target="AndroidManifest.xml" parent="/manifest">
+      <uses-permission android:name="android.permission.INTERNET" />
+      <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+      <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    </config-file>
+
+    <config-file target="AndroidManifest.xml" parent="/manifest/application">
+      <!-- Console App ID специально не зашит в плагин.
+           Pay SDK >=10.2 поддерживает ручную инициализацию, поэтому GDevelop
+           передаёт ConsoleApplicationId во время запуска игры. -->
+      <meta-data
+          android:name="sdk_pay_scheme_value"
+          android:value="$PACKAGE_NAME.rustorepay" />
+
+      <activity
+          android:name="ru.rustore.gdevelop.pay.RuStoreGDevelopDeepLinkActivity"
+          android:exported="true"
+          android:launchMode="singleTop"
+          android:theme="@android:style/Theme.NoDisplay">
+        <intent-filter>
+          <action android:name="android.intent.action.VIEW" />
+          <category android:name="android.intent.category.DEFAULT" />
+          <category android:name="android.intent.category.BROWSABLE" />
+          <data android:scheme="$PACKAGE_NAME.rustorepay" />
+        </intent-filter>
+      </activity>
+    </config-file>
+
+    <source-file src="src/android/RuStoreGDevelopPay.java"
+                 target-dir="src/ru/rustore/gdevelop/pay" />
+    <source-file src="src/android/RuStoreGDevelopDeepLinkActivity.java"
+                 target-dir="src/ru/rustore/gdevelop/pay" />
+    <framework src="src/android/rustore-pay.gradle" custom="true" type="gradleReference" />
+  </platform>
+</plugin>
