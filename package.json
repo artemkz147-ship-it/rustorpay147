@@ -1,0 +1,11 @@
+{
+  "name": "ru.rustore.gdevelop.pay",
+  "version": "1.0.0",
+  "description": "RuStore Pay SDK 11 bridge for GDevelop/Cordova",
+  "cordova": {
+    "id": "ru.rustore.gdevelop.pay",
+    "platforms": ["android"]
+  },
+  "keywords": ["ecosystem:cordova", "cordova-android", "rustore", "iap", "gdevelop"],
+  "license": "MIT"
+}

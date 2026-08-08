@@ -1,0 +1,10 @@
+repositories {
+    maven {
+        url = uri("https://nexus-external.vkteam.ru/repository/maven-rustore-exposed/")
+    }
+}
+
+dependencies {
+    implementation platform("ru.rustore.sdk:bom:2026.07.01")
+    implementation "ru.rustore.sdk:pay"
+}
