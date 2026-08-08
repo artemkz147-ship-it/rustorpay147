@@ -1,12 +1,10 @@
 {
   "name": "ru.rustore.gdevelop.pay",
-  "version": "1.0.0",
-  "description": "RuStore Pay SDK 11 для GDevelop/Cordova — покупки внутри Android-приложения",
+  "version": "1.0.1",
+  "description": "RuStore Pay SDK для GDevelop/Cordova — покупки внутри Android-приложения",
   "cordova": {
     "id": "ru.rustore.gdevelop.pay",
-    "platforms": [
-      "android"
-    ]
+    "platforms": ["android"]
   },
   "keywords": [
     "ecosystem:cordova",

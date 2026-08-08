@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<plugin id="ru.rustore.gdevelop.pay" version="1.0.0"
+<plugin id="ru.rustore.gdevelop.pay" version="1.0.1"
         xmlns="http://apache.org/cordova/ns/plugins/1.0"
-        xmlns:android="http://schemas.android.com/apk/res/android">
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools">
   <name>RuStore Pay for GDevelop</name>
   <description>Мост RuStore Pay SDK для GDevelop/Cordova.</description>
   <license>MIT</license>
@@ -29,9 +30,17 @@
     </config-file>
 
     <config-file target="AndroidManifest.xml" parent="/manifest/application">
-      <!-- Console App ID специально не зашит в плагин.
-           Pay SDK >=10.2 поддерживает ручную инициализацию, поэтому GDevelop
-           передаёт ConsoleApplicationId во время запуска игры. -->
+      <!--
+        RuStore Pay SDK добавляет RuStorePayContentProvider и автоматически
+        инициализирует SDK из manifest. Этот Cordova-мост инициализирует SDK
+        вручную, потому что Console App ID передаётся из GDevelop во время
+        выполнения. Поэтому удаляем авто-провайдер из итогового manifest,
+        иначе SDK получает двойную инициализацию.
+      -->
+      <provider
+          android:name="ru.rustore.sdk.pay.RuStorePayContentProvider"
+          tools:node="remove" />
+
       <meta-data
           android:name="sdk_pay_scheme_value"
           android:value="$PACKAGE_NAME.rustorepay" />

@@ -12,8 +12,6 @@ import org.json.JSONObject;
 import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -67,32 +65,15 @@ public final class RuStoreGDevelopPay extends CordovaPlugin {
     public boolean execute(String action, JSONArray args, CallbackContext callback) {
         try {
             switch (action) {
-                case "initialize":
-                    initialize(args, callback);
-                    return true;
-                case "getPurchaseAvailability":
-                    getPurchaseAvailability(callback);
-                    return true;
-                case "getUserAuthorizationStatus":
-                    getUserAuthorizationStatus(callback);
-                    return true;
-                case "getProducts":
-                    getProducts(args, callback);
-                    return true;
-                case "purchase":
-                    purchase(args, callback);
-                    return true;
-                case "getPurchases":
-                    getPurchases(callback);
-                    return true;
-                case "getPurchase":
-                    getPurchase(args, callback);
-                    return true;
-                case "acknowledgePurchase":
-                    acknowledgePurchase(args, callback);
-                    return true;
-                default:
-                    return false;
+                case "initialize": initialize(args, callback); return true;
+                case "getPurchaseAvailability": getPurchaseAvailability(callback); return true;
+                case "getUserAuthorizationStatus": getUserAuthorizationStatus(callback); return true;
+                case "getProducts": getProducts(args, callback); return true;
+                case "purchase": purchase(args, callback); return true;
+                case "getPurchases": getPurchases(callback); return true;
+                case "getPurchase": getPurchase(args, callback); return true;
+                case "acknowledgePurchase": acknowledgePurchase(args, callback); return true;
+                default: return false;
             }
         } catch (Throwable error) {
             fail(callback, error);
@@ -135,10 +116,6 @@ public final class RuStoreGDevelopPay extends CordovaPlugin {
 
     static synchronized RuStorePayClient ensureClient(Context context, String consoleAppId) {
         if (client != null) return client;
-
-        // Используем публичный API ручной инициализации. Это позволяет хранить
-        // Console App ID отдельно для каждого проекта без генерации специального manifest
-        // и без ручного редактирования проекта в Android Studio.
         String appId = consoleAppId == null ? "" : consoleAppId.trim();
         if (appId.isEmpty()) appId = readConsoleAppId(context);
         if (appId.isEmpty()) return null;
@@ -168,14 +145,10 @@ public final class RuStoreGDevelopPay extends CordovaPlugin {
                             out.put("available", "Available".equals(simpleName));
                             out.put("result", toJsonValue(result, 0));
                             success(callback, out);
-                        } catch (Throwable error) {
-                            fail(callback, error);
-                        }
+                        } catch (Throwable error) { fail(callback, error); }
                     })
                     .addOnFailureListener(error -> fail(callback, error));
-        } catch (Throwable error) {
-            fail(callback, error);
-        }
+        } catch (Throwable error) { fail(callback, error); }
     }
 
     private void getUserAuthorizationStatus(CallbackContext callback) {
@@ -186,14 +159,10 @@ public final class RuStoreGDevelopPay extends CordovaPlugin {
                             JSONObject out = new JSONObject();
                             out.put("status", result == null ? "UNKNOWN" : result.toString());
                             success(callback, out);
-                        } catch (Throwable error) {
-                            fail(callback, error);
-                        }
+                        } catch (Throwable error) { fail(callback, error); }
                     })
                     .addOnFailureListener(error -> fail(callback, error));
-        } catch (Throwable error) {
-            fail(callback, error);
-        }
+        } catch (Throwable error) { fail(callback, error); }
     }
 
     private void getProducts(JSONArray args, CallbackContext callback) {
@@ -212,9 +181,7 @@ public final class RuStoreGDevelopPay extends CordovaPlugin {
                         catch (Throwable error) { fail(callback, error); }
                     })
                     .addOnFailureListener(error -> fail(callback, error));
-        } catch (Throwable error) {
-            fail(callback, error);
-        }
+        } catch (Throwable error) { fail(callback, error); }
     }
 
     private void purchase(JSONArray args, CallbackContext callback) {
@@ -244,7 +211,6 @@ public final class RuStoreGDevelopPay extends CordovaPlugin {
                     appUserEmail.isEmpty() ? null : new AppUserEmail(appUserEmail)
             );
 
-            // SDK открывает нативное окно оплаты, поэтому вызов выполняется в UI-потоке Android.
             final ProductPurchaseParams finalParams = params;
             cordova.getActivity().runOnUiThread(() -> {
                 try {
@@ -255,13 +221,9 @@ public final class RuStoreGDevelopPay extends CordovaPlugin {
                                 catch (Throwable error) { fail(callback, error); }
                             })
                             .addOnFailureListener(error -> fail(callback, error));
-                } catch (Throwable error) {
-                    fail(callback, error);
-                }
+                } catch (Throwable error) { fail(callback, error); }
             });
-        } catch (Throwable error) {
-            fail(callback, error);
-        }
+        } catch (Throwable error) { fail(callback, error); }
     }
 
     private void getPurchases(CallbackContext callback) {
@@ -272,9 +234,7 @@ public final class RuStoreGDevelopPay extends CordovaPlugin {
                         catch (Throwable error) { fail(callback, error); }
                     })
                     .addOnFailureListener(error -> fail(callback, error));
-        } catch (Throwable error) {
-            fail(callback, error);
-        }
+        } catch (Throwable error) { fail(callback, error); }
     }
 
     private void getPurchase(JSONArray args, CallbackContext callback) {
@@ -290,9 +250,7 @@ public final class RuStoreGDevelopPay extends CordovaPlugin {
                         catch (Throwable error) { fail(callback, error); }
                     })
                     .addOnFailureListener(error -> fail(callback, error));
-        } catch (Throwable error) {
-            fail(callback, error);
-        }
+        } catch (Throwable error) { fail(callback, error); }
     }
 
     private void acknowledgePurchase(JSONArray args, CallbackContext callback) {
@@ -314,14 +272,10 @@ public final class RuStoreGDevelopPay extends CordovaPlugin {
                             out.put("purchaseId", id);
                             out.put("acknowledgementState", state == null ? "UNKNOWN" : state.toString());
                             success(callback, out);
-                        } catch (Throwable error) {
-                            fail(callback, error);
-                        }
+                        } catch (Throwable error) { fail(callback, error); }
                     })
                     .addOnFailureListener(error -> fail(callback, error));
-        } catch (Throwable error) {
-            fail(callback, error);
-        }
+        } catch (Throwable error) { fail(callback, error); }
     }
 
     private static void success(CallbackContext callback, Object value) {
@@ -348,17 +302,13 @@ public final class RuStoreGDevelopPay extends CordovaPlugin {
             }
             out.put("simpleName", cause == null ? "Error" : cause.getClass().getSimpleName());
             out.put("message", cause == null || cause.getMessage() == null ? "" : cause.getMessage());
-            if (cause != null) {
-                Object details = toJsonValue(cause, 0);
-                out.put("details", details);
-            }
+            if (cause != null) out.put("details", toJsonValue(cause, 0));
             callback.error(out.toString());
         } catch (Throwable ignored) {
             callback.error(error == null ? "Ошибка RuStore Pay" : String.valueOf(error));
         }
     }
 
-    /** Преобразуем модели SDK в JSON без жёсткой привязки к каждому классу модели. */
     private static Object toJsonValue(Object value, int depth) throws Exception {
         if (value == null) return JSONObject.NULL;
         if (value == JSONObject.NULL) return value;
@@ -380,7 +330,6 @@ public final class RuStoreGDevelopPay extends CordovaPlugin {
             return object;
         }
 
-        // Kotlin value classes in the SDK expose getValue().
         try {
             Method getValue = value.getClass().getMethod("getValue");
             if (getValue.getParameterTypes().length == 0) {
@@ -407,7 +356,6 @@ public final class RuStoreGDevelopPay extends CordovaPlugin {
                 Object child = method.invoke(value);
                 object.put(key, toJsonValue(child, depth + 1));
             } catch (Throwable ignored) {
-                // Пропускаем геттеры, которые небезопасно вызывать в этом контексте.
             }
         }
         return object;
