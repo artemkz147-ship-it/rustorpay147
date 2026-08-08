@@ -1,19 +1,12 @@
-RuStore Pay for GDevelop — v1.0.1
+RuStore Pay for GDevelop/Cordova v1.0.2
 
-Что исправлено:
-- устранена двойная инициализация RuStore Pay SDK;
-- при сборке Android удаляется авто-провайдер RuStorePayContentProvider;
-- остаётся ручная инициализация через Console App ID из GDevelop;
-- API JavaScript не изменён, старое расширение GDevelop продолжает работать.
+Исправлено:
+- убран tools:node="remove", из-за которого Cordova-сборка падала с ошибкой prefix tools is not bound;
+- убрана ручная повторная инициализация RuStorePayClientProvider;
+- используется штатная автоматическая инициализация Pay SDK через AndroidManifest;
+- сохранён прежний JS API cordova.plugins.RuStoreGDevelopPay;
+- Console App ID по умолчанию: 2063744155;
+- deeplink-схема: $PACKAGE_NAME.rustorepay.
 
-Как использовать:
-1. Замени содержимое репозитория rustorpay147 файлами из этой папки.
-2. Убедись, что plugin.xml лежит в корне репозитория.
-3. В GDevelop зависимость оставь той же:
-   https://github.com/artemkz147-ship-it/rustorpay147.git
-4. Собери Android заново. Лучше удалить старую APK с телефона перед тестом.
-
-Для игры:
-Package Name: com.artem.sexivideopuzzles
-Console App ID: 2063744155
-Product ID: pazleprtm147
+Для текущей игры ничего менять в game.json не нужно.
+Замените файлы в репозитории rustorpay147 и заново соберите Android-приложение.
