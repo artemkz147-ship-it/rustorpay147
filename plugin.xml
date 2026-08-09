@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<plugin id="ru.rustore.gdevelop.pay" version="2.1.0"
+<plugin id="ru.rustore.gdevelop.pay" version="1.0.4"
         xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android">
-  <name>RuStore Pay for GDevelop — Fant Fix</name>
+  <name>RuStore Pay for GDevelop — puzzle working scheme</name>
   <description>Мост RuStore Pay SDK для GDevelop/Cordova.</description>
   <license>MIT</license>
   <keywords>rustore,pay,iap,gdevelop,cordova</keywords>
@@ -13,8 +13,6 @@
     переменной RUSTORE_CONSOLE_APP_ID=XXXXXXXXXX
   -->
   <preference name="RUSTORE_CONSOLE_APP_ID" default="2063744599" />
-
-  <preference name="RUSTORE_APP_SCHEME" default="com.coupledare.iskra.rustorepay" />
 
   <engines>
     <engine name="cordova-android" version=">=12.0.0" />
@@ -45,12 +43,7 @@
 
       <meta-data
           android:name="sdk_pay_scheme_value"
-          android:value="$RUSTORE_APP_SCHEME" />
-
-      <!-- Compatibility key: current SDK error text still mentions app_scheme_value. -->
-      <meta-data
-          android:name="app_scheme_value"
-          android:value="$RUSTORE_APP_SCHEME" />
+          android:value="$PACKAGE_NAME.rustorepay" />
 
       <activity
           android:name="ru.rustore.gdevelop.pay.RuStoreGDevelopDeepLinkActivity"
@@ -61,7 +54,7 @@
           <action android:name="android.intent.action.VIEW" />
           <category android:name="android.intent.category.DEFAULT" />
           <category android:name="android.intent.category.BROWSABLE" />
-          <data android:scheme="$RUSTORE_APP_SCHEME" />
+          <data android:scheme="$PACKAGE_NAME.rustorepay" />
         </intent-filter>
       </activity>
     </config-file>

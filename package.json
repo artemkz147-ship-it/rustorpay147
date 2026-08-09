@@ -1,7 +1,7 @@
 {
   "name": "ru.rustore.gdevelop.pay",
-  "version": "2.1.0",
-  "description": "RuStore Pay SDK для GDevelop/Cordova — автоинициализация через AndroidManifest, deeplink fix",
+  "version": "1.0.4",
+  "description": "RuStore Pay SDK для GDevelop/Cordova — автоматическая инициализация через AndroidManifest",
   "cordova": {
     "id": "ru.rustore.gdevelop.pay",
     "platforms": [
