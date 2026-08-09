@@ -1,7 +1,7 @@
 {
   "name": "ru.rustore.gdevelop.pay",
-  "version": "2.0.0",
-  "description": "Универсальный RuStore Pay SDK bridge для GDevelop/Cordova — Console App ID передаётся из игры во время выполнения",
+  "version": "2.1.0",
+  "description": "RuStore Pay SDK для GDevelop/Cordova — автоинициализация через AndroidManifest, deeplink fix",
   "cordova": {
     "id": "ru.rustore.gdevelop.pay",
     "platforms": [
@@ -13,8 +13,7 @@
     "cordova-android",
     "rustore",
     "iap",
-    "gdevelop",
-    "universal"
+    "gdevelop"
   ],
   "license": "MIT"
 }

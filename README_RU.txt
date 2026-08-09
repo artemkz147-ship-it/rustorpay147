@@ -1,30 +1,16 @@
-RuStore Pay Universal for GDevelop — v2.0.0
+RuStore Pay GDevelop v2.1.0 — FIX deeplink
 
-ОДИН ПЛАГИН ДЛЯ ВСЕХ ИГР
-=========================
+Для текущей игры по умолчанию:
+Console App ID: 2063744599
+App scheme: com.coupledare.iskra.rustorepay
 
-В плагине больше НЕ зашиты:
-- Console App ID;
-- Product ID;
-- package name конкретной игры.
+Что исправлено:
+- RuStore Pay снова использует штатную автоматическую инициализацию SDK через AndroidManifest (как в рабочем v1.0.2).
+- sdk_pay_scheme_value явно добавляется в AndroidManifest.
+- дополнительно добавлен app_scheme_value для совместимости с текстом ошибки SDK.
+- deeplink activity принимает com.coupledare.iskra.rustorepay://... и передает Intent в RuStore Pay.
+- ручной RuStorePayClientProvider.provide() НЕ вызывается, поэтому нет двойной инициализации.
 
-Каждая GDevelop-игра передаёт свой Console App ID через:
-cordova.plugins.RuStoreGDevelopPay.initialize("CONSOLE_APP_ID", ...)
-
-Product ID передаётся в purchase({ productId: "PRODUCT_ID", ... }).
-Package name берётся автоматически из Android-сборки и используется в deeplink scheme.
-
-Почему это работает:
-- авто-провайдер RuStorePayContentProvider удаляется из итогового AndroidManifest;
-- RuStore Pay создаётся один раз вручную через RuStorePayClientProvider.provide(...);
-- xmlns:tools находится прямо на <provider>, поэтому Cordova не теряет namespace при переносе узла;
-- API JavaScript совместим с прежним мостом.
-
-Как использовать во всех проектах:
-1. Один раз замени содержимое репозитория rustorpay147 содержимым этого архива.
-2. В каждой игре оставь Cordova dependency:
-   https://github.com/artemkz147-ship-it/rustorpay147.git
-3. В коде конкретной игры укажи её Console App ID и Product ID.
-4. Собери Android заново.
-
-Не нужно делать отдельную копию плагина под каждую игру.
+Для другой игры при ручной установке плагина можно переопределить:
+RUSTORE_CONSOLE_APP_ID
+RUSTORE_APP_SCHEME

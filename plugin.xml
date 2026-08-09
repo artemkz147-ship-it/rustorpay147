@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<plugin id="ru.rustore.gdevelop.pay" version="2.0.0"
+<plugin id="ru.rustore.gdevelop.pay" version="2.1.0"
         xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android">
-  <name>RuStore Pay Universal for GDevelop</name>
-  <description>Универсальный мост RuStore Pay SDK для GDevelop/Cordova. Console App ID передаётся из игры во время выполнения.</description>
+  <name>RuStore Pay for GDevelop — Fant Fix</name>
+  <description>Мост RuStore Pay SDK для GDevelop/Cordova.</description>
   <license>MIT</license>
-  <keywords>rustore,pay,iap,gdevelop,cordova,universal</keywords>
+  <keywords>rustore,pay,iap,gdevelop,cordova</keywords>
+
+  <!--
+    Для текущего проекта значение по умолчанию уже заполнено.
+    При установке плагина вручную его можно переопределить:
+    переменной RUSTORE_CONSOLE_APP_ID=XXXXXXXXXX
+  -->
+  <preference name="RUSTORE_CONSOLE_APP_ID" default="2063744599" />
+
+  <preference name="RUSTORE_APP_SCHEME" default="com.coupledare.iskra.rustorepay" />
 
   <engines>
     <engine name="cordova-android" version=">=12.0.0" />
@@ -29,24 +38,19 @@
     </config-file>
 
     <config-file target="AndroidManifest.xml" parent="/manifest/application">
-      <!--
-        RuStore Pay SDK сам добавляет RuStorePayContentProvider и пытается
-        выполнить автоматическую инициализацию. Универсальному плагину нужен
-        runtime Console App ID, поэтому используем официально поддерживаемую
-        ручную инициализацию и удаляем авто-провайдер при merge manifest.
-
-        ВАЖНО: xmlns:tools объявлен прямо на provider. Cordova переносит именно
-        этот узел в AndroidManifest; так prefix tools остаётся связанным и не
-        возникает SAXParseException "prefix tools ... is not bound".
-      -->
-      <provider
-          xmlns:tools="http://schemas.android.com/tools"
-          android:name="ru.rustore.sdk.pay.RuStorePayContentProvider"
-          tools:node="remove" />
+      <!-- Pay SDK 10+ инициализируется автоматически через AndroidManifest. -->
+      <meta-data
+          android:name="console_app_id_value"
+          android:value="$RUSTORE_CONSOLE_APP_ID" />
 
       <meta-data
           android:name="sdk_pay_scheme_value"
-          android:value="$PACKAGE_NAME.rustorepay" />
+          android:value="$RUSTORE_APP_SCHEME" />
+
+      <!-- Compatibility key: current SDK error text still mentions app_scheme_value. -->
+      <meta-data
+          android:name="app_scheme_value"
+          android:value="$RUSTORE_APP_SCHEME" />
 
       <activity
           android:name="ru.rustore.gdevelop.pay.RuStoreGDevelopDeepLinkActivity"
@@ -57,7 +61,7 @@
           <action android:name="android.intent.action.VIEW" />
           <category android:name="android.intent.category.DEFAULT" />
           <category android:name="android.intent.category.BROWSABLE" />
-          <data android:scheme="$PACKAGE_NAME.rustorepay" />
+          <data android:scheme="$RUSTORE_APP_SCHEME" />
         </intent-filter>
       </activity>
     </config-file>
