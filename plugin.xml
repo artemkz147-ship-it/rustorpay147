@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<plugin id="ru.rustore.gdevelop.pay" version="1.0.2"
+<plugin id="ru.rustore.gdevelop.pay" version="2.0.0"
         xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android">
-  <name>RuStore Pay for GDevelop</name>
-  <description>Мост RuStore Pay SDK для GDevelop/Cordova.</description>
+  <name>RuStore Pay Universal for GDevelop</name>
+  <description>Универсальный мост RuStore Pay SDK для GDevelop/Cordova. Console App ID передаётся из игры во время выполнения.</description>
   <license>MIT</license>
-  <keywords>rustore,pay,iap,gdevelop,cordova</keywords>
-
-  <!--
-    Для текущего проекта значение по умолчанию уже заполнено.
-    При установке плагина вручную его можно переопределить:
-    переменной RUSTORE_CONSOLE_APP_ID=XXXXXXXXXX
-  -->
-  <preference name="RUSTORE_CONSOLE_APP_ID" default="2063744155" />
+  <keywords>rustore,pay,iap,gdevelop,cordova,universal</keywords>
 
   <engines>
     <engine name="cordova-android" version=">=12.0.0" />
@@ -36,10 +29,20 @@
     </config-file>
 
     <config-file target="AndroidManifest.xml" parent="/manifest/application">
-      <!-- Pay SDK 10+ инициализируется автоматически через AndroidManifest. -->
-      <meta-data
-          android:name="console_app_id_value"
-          android:value="$RUSTORE_CONSOLE_APP_ID" />
+      <!--
+        RuStore Pay SDK сам добавляет RuStorePayContentProvider и пытается
+        выполнить автоматическую инициализацию. Универсальному плагину нужен
+        runtime Console App ID, поэтому используем официально поддерживаемую
+        ручную инициализацию и удаляем авто-провайдер при merge manifest.
+
+        ВАЖНО: xmlns:tools объявлен прямо на provider. Cordova переносит именно
+        этот узел в AndroidManifest; так prefix tools остаётся связанным и не
+        возникает SAXParseException "prefix tools ... is not bound".
+      -->
+      <provider
+          xmlns:tools="http://schemas.android.com/tools"
+          android:name="ru.rustore.sdk.pay.RuStorePayContentProvider"
+          tools:node="remove" />
 
       <meta-data
           android:name="sdk_pay_scheme_value"

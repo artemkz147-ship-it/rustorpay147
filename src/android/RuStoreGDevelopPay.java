@@ -10,14 +10,17 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.lang.reflect.Method;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
 
 import ru.rustore.sdk.pay.RuStorePayClient;
+import ru.rustore.sdk.pay.RuStorePayClientProvider;
 import ru.rustore.sdk.pay.model.AcknowledgementState;
 import ru.rustore.sdk.pay.model.AppUserEmail;
 import ru.rustore.sdk.pay.model.AppUserId;
+import ru.rustore.sdk.pay.model.ConsoleApplicationId;
 import ru.rustore.sdk.pay.model.DeveloperPayload;
 import ru.rustore.sdk.pay.model.OrderId;
 import ru.rustore.sdk.pay.model.PreferredPurchaseType;
@@ -113,64 +116,22 @@ public final class RuStoreGDevelopPay extends CordovaPlugin {
 
     static synchronized RuStorePayClient ensureClient(Context context, String consoleAppId) {
         if (client != null) return client;
+        String appId = consoleAppId == null ? "" : consoleAppId.trim();
+        if (appId.isEmpty()) appId = readConsoleAppId(context);
+        if (appId.isEmpty()) return null;
 
-        // Pay SDK 10+ создаётся автоматически через RuStorePayContentProvider,
-        // используя console_app_id_value и sdk_pay_scheme_value из AndroidManifest.
-        // Здесь мы только получаем уже созданный singleton и НИКОГДА не вызываем
-        // RuStorePayClientProvider.provide(), чтобы не было двойной инициализации.
-        Throwable lastError = null;
-
-        // Kotlin object: public static final RuStorePayClient INSTANCE
-        try {
-            java.lang.reflect.Field field = RuStorePayClient.class.getField("INSTANCE");
-            Object value = field.get(null);
-            if (value instanceof RuStorePayClient) {
-                client = (RuStorePayClient) value;
-                return client;
-            }
-        } catch (Throwable error) {
-            lastError = error;
-        }
-
-        // Вариант с публичным static getInstance().
-        try {
-            Method method = RuStorePayClient.class.getMethod("getInstance");
-            Object value = method.invoke(null);
-            if (value instanceof RuStorePayClient) {
-                client = (RuStorePayClient) value;
-                return client;
-            }
-        } catch (Throwable error) {
-            lastError = error;
-        }
-
-        // Вариант Kotlin Companion.getInstance().
-        try {
-            java.lang.reflect.Field companionField = RuStorePayClient.class.getField("Companion");
-            Object companion = companionField.get(null);
-            if (companion != null) {
-                Method method = companion.getClass().getMethod("getInstance");
-                Object value = method.invoke(companion);
-                if (value instanceof RuStorePayClient) {
-                    client = (RuStorePayClient) value;
-                    return client;
-                }
-            }
-        } catch (Throwable error) {
-            lastError = error;
-        }
-
-        throw new IllegalStateException(
-                "RuStore Pay SDK не был автоматически инициализирован. " +
-                "Проверьте console_app_id_value в AndroidManifest.xml.",
-                lastError
+        client = new RuStorePayClientProvider().provide(
+                context,
+                new ConsoleApplicationId(appId),
+                Collections.emptyMap()
         );
+        return client;
     }
 
     private RuStorePayClient requireClient() {
         String appId = readConsoleAppId(cordova.getActivity());
         RuStorePayClient c = ensureClient(cordova.getActivity(), appId);
-        if (c == null) throw new IllegalStateException("RuStore Pay SDK не инициализирован через AndroidManifest");
+        if (c == null) throw new IllegalStateException("Сначала выполните действие «Инициализировать RuStore Pay»");
         return c;
     }
 
