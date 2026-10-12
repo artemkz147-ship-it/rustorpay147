@@ -20,6 +20,14 @@ Console App ID — это числовой ID приложения в консо
 
 Этот репозиторий подключается к расширению GDevelop как Cordova dependency.
 
+## Готовое расширение GDevelop
+
+[Скачать RuStorePay_GDevelop_1.0.0.json](https://raw.githubusercontent.com/artemkz147-ship-it/rustorpay147/main/RuStorePay_GDevelop_1.0.0.json)
+
+[Инструкция по импорту, покупке и подтверждению выдачи](GDEVELOP_RU.md).
+Расширение настроено для Console App ID `2063744155` и закреплено на плагине 1.0.3.
+JavaScript проверен тестами; импорт в GDevelop, Android-сборку и оплату нужно проверить отдельно.
+
 ## Обновление 1.0.3
 
 - Pay SDK 11.1.0 подключается через BOM `2026.08.01`.
