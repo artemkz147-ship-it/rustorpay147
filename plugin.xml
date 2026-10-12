@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<plugin id="ru.rustore.gdevelop.pay" version="1.0.2"
+<plugin id="ru.rustore.gdevelop.pay" version="1.0.3"
         xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android">
   <name>RuStore Pay for GDevelop</name>
@@ -23,6 +23,12 @@
   </js-module>
 
   <platform name="android">
+    <!-- Строковые ресурсы предотвращают чтение числового App ID как integer. -->
+    <config-file target="res/values/strings.xml" parent="/resources">
+      <string name="rustore_gdevelop_console_app_id" translatable="false">$RUSTORE_CONSOLE_APP_ID</string>
+      <string name="rustore_gdevelop_pay_scheme" translatable="false">$PACKAGE_NAME.rustorepay</string>
+    </config-file>
+
     <config-file target="res/xml/config.xml" parent="/*">
       <feature name="RuStoreGDevelopPay">
         <param name="android-package" value="ru.rustore.gdevelop.pay.RuStoreGDevelopPay" />
@@ -39,11 +45,11 @@
       <!-- Pay SDK 10+ инициализируется автоматически через AndroidManifest. -->
       <meta-data
           android:name="console_app_id_value"
-          android:value="$RUSTORE_CONSOLE_APP_ID" />
+          android:value="@string/rustore_gdevelop_console_app_id" />
 
       <meta-data
           android:name="sdk_pay_scheme_value"
-          android:value="$PACKAGE_NAME.rustorepay" />
+          android:value="@string/rustore_gdevelop_pay_scheme" />
 
       <activity
           android:name="ru.rustore.gdevelop.pay.RuStoreGDevelopDeepLinkActivity"
