@@ -1,0 +1,407 @@
+{
+  "author": "Артем",
+  "name": "AnimeRuStore",
+  "fullName": "RuStore — Аниме на раздевание",
+  "version": "1.1.0",
+  "category": "Third-party",
+  "extensionNamespace": "",
+  "description": [
+    "Покупки bust1471, нативное окно оценки, скачивание видео. Подключение нативного SDK выполняет облачная сборка GDevelop."
+  ],
+  "shortDescription": "RuStore Pay 11.1.0 и Review 10.5.1 для вашего кликера.",
+  "authorIds": [],
+  "tags": [
+    "rustore",
+    "android",
+    "payments"
+  ],
+  "dependencies": [
+    {
+      "type": "cordova",
+      "name": "RuStore cloud native module",
+      "exportName": "ru.rustore.gdevelop.pay",
+      "version": "https://github.com/artemkz147-ship-it/rustorpay147.git#6af4387292216361143f941966ae8182f97593e9"
+    }
+  ],
+  "globalVariables": [],
+  "sceneVariables": [],
+  "eventsFunctions": [
+    {
+      "name": "Initialize",
+      "fullName": "Подключить RuStore",
+      "functionType": "Action",
+      "sentence": "Подключить RuStore",
+      "description": "",
+      "group": "RuStore",
+      "parameters": [],
+      "objectGroups": [],
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "if (!gdjs.animeRuStore) {",
+            "  gdjs.animeRuStore = {",
+            "    data: {paid:0, price:null, busy:false, review:false}, listeners:[], connected:false,",
+            "    call(action,args=[]) {",
+            "      return new Promise((resolve,reject)=>{",
+            "        if (!globalThis.cordova || typeof cordova.exec !== 'function') {",
+            "          reject(new Error('RuStore доступен в установленной Android-сборке')); return;",
+            "        }",
+            "        cordova.exec(resolve,reject,'AnimeRuStore',action,args);",
+            "      });",
+            "    },",
+            "    subscribe(listener) { this.listeners.push(listener);listener(this.data);this.connect(); },",
+            "    connect() {",
+            "      if(this.connected || !globalThis.cordova || typeof cordova.exec !== 'function')return;",
+            "      this.connected=true;",
+            "      cordova.exec(data=>{",
+            "        this.data=data;",
+            "        for(const listener of this.listeners)listener(data);",
+            "      },error=>{",
+            "        this.connected=false;",
+            "        this.data={...this.data,price:null,busy:false,message:String(error && error.message || error)};",
+            "        for(const listener of this.listeners)listener(this.data);",
+            "      },'AnimeRuStore','subscribe',[]);",
+            "    }",
+            "  };",
+            "  if(typeof document !== 'undefined') document.addEventListener('deviceready',()=>gdjs.animeRuStore.connect(),{once:true});",
+            "}",
+            "gdjs.animeRuStore.connect();",
+            ""
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ]
+    },
+    {
+      "name": "BuyBoost",
+      "fullName": "Купить буст +100",
+      "functionType": "Action",
+      "sentence": "Купить буст +100",
+      "description": "",
+      "group": "RuStore",
+      "parameters": [],
+      "objectGroups": [],
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "if (!gdjs.animeRuStore) {",
+            "  gdjs.animeRuStore = {",
+            "    data: {paid:0, price:null, busy:false, review:false}, listeners:[], connected:false,",
+            "    call(action,args=[]) {",
+            "      return new Promise((resolve,reject)=>{",
+            "        if (!globalThis.cordova || typeof cordova.exec !== 'function') {",
+            "          reject(new Error('RuStore доступен в установленной Android-сборке')); return;",
+            "        }",
+            "        cordova.exec(resolve,reject,'AnimeRuStore',action,args);",
+            "      });",
+            "    },",
+            "    subscribe(listener) { this.listeners.push(listener);listener(this.data);this.connect(); },",
+            "    connect() {",
+            "      if(this.connected || !globalThis.cordova || typeof cordova.exec !== 'function')return;",
+            "      this.connected=true;",
+            "      cordova.exec(data=>{",
+            "        this.data=data;",
+            "        for(const listener of this.listeners)listener(data);",
+            "      },error=>{",
+            "        this.connected=false;",
+            "        this.data={...this.data,price:null,busy:false,message:String(error && error.message || error)};",
+            "        for(const listener of this.listeners)listener(this.data);",
+            "      },'AnimeRuStore','subscribe',[]);",
+            "    }",
+            "  };",
+            "  if(typeof document !== 'undefined') document.addEventListener('deviceready',()=>gdjs.animeRuStore.connect(),{once:true});",
+            "}",
+            "gdjs.animeRuStore.connect();",
+            "",
+            "if(gdjs.animeRuStore.data.price && !gdjs.animeRuStore.data.busy)gdjs.animeRuStore.call('purchase').catch(()=>{});"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ]
+    },
+    {
+      "name": "Review",
+      "fullName": "Открыть оценку RuStore",
+      "functionType": "Action",
+      "sentence": "Открыть оценку RuStore",
+      "description": "",
+      "group": "RuStore",
+      "parameters": [],
+      "objectGroups": [],
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "if (!gdjs.animeRuStore) {",
+            "  gdjs.animeRuStore = {",
+            "    data: {paid:0, price:null, busy:false, review:false}, listeners:[], connected:false,",
+            "    call(action,args=[]) {",
+            "      return new Promise((resolve,reject)=>{",
+            "        if (!globalThis.cordova || typeof cordova.exec !== 'function') {",
+            "          reject(new Error('RuStore доступен в установленной Android-сборке')); return;",
+            "        }",
+            "        cordova.exec(resolve,reject,'AnimeRuStore',action,args);",
+            "      });",
+            "    },",
+            "    subscribe(listener) { this.listeners.push(listener);listener(this.data);this.connect(); },",
+            "    connect() {",
+            "      if(this.connected || !globalThis.cordova || typeof cordova.exec !== 'function')return;",
+            "      this.connected=true;",
+            "      cordova.exec(data=>{",
+            "        this.data=data;",
+            "        for(const listener of this.listeners)listener(data);",
+            "      },error=>{",
+            "        this.connected=false;",
+            "        this.data={...this.data,price:null,busy:false,message:String(error && error.message || error)};",
+            "        for(const listener of this.listeners)listener(this.data);",
+            "      },'AnimeRuStore','subscribe',[]);",
+            "    }",
+            "  };",
+            "  if(typeof document !== 'undefined') document.addEventListener('deviceready',()=>gdjs.animeRuStore.connect(),{once:true});",
+            "}",
+            "gdjs.animeRuStore.connect();",
+            "",
+            "gdjs.animeRuStore.call('review').then(()=>{gdjs.animeRuStore.data.review=true;}).catch(()=>{});"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ]
+    },
+    {
+      "name": "Ready",
+      "fullName": "Товар RuStore загружен",
+      "functionType": "Condition",
+      "sentence": "Товар RuStore загружен",
+      "description": "",
+      "group": "RuStore",
+      "parameters": [],
+      "objectGroups": [],
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "if (!gdjs.animeRuStore) {",
+            "  gdjs.animeRuStore = {",
+            "    data: {paid:0, price:null, busy:false, review:false}, listeners:[], connected:false,",
+            "    call(action,args=[]) {",
+            "      return new Promise((resolve,reject)=>{",
+            "        if (!globalThis.cordova || typeof cordova.exec !== 'function') {",
+            "          reject(new Error('RuStore доступен в установленной Android-сборке')); return;",
+            "        }",
+            "        cordova.exec(resolve,reject,'AnimeRuStore',action,args);",
+            "      });",
+            "    },",
+            "    subscribe(listener) { this.listeners.push(listener);listener(this.data);this.connect(); },",
+            "    connect() {",
+            "      if(this.connected || !globalThis.cordova || typeof cordova.exec !== 'function')return;",
+            "      this.connected=true;",
+            "      cordova.exec(data=>{",
+            "        this.data=data;",
+            "        for(const listener of this.listeners)listener(data);",
+            "      },error=>{",
+            "        this.connected=false;",
+            "        this.data={...this.data,price:null,busy:false,message:String(error && error.message || error)};",
+            "        for(const listener of this.listeners)listener(this.data);",
+            "      },'AnimeRuStore','subscribe',[]);",
+            "    }",
+            "  };",
+            "  if(typeof document !== 'undefined') document.addEventListener('deviceready',()=>gdjs.animeRuStore.connect(),{once:true});",
+            "}",
+            "gdjs.animeRuStore.connect();",
+            "",
+            "eventsFunctionContext.returnValue = !!gdjs.animeRuStore.data.price;"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ]
+    },
+    {
+      "name": "Busy",
+      "fullName": "Оплата выполняется",
+      "functionType": "Condition",
+      "sentence": "Оплата выполняется",
+      "description": "",
+      "group": "RuStore",
+      "parameters": [],
+      "objectGroups": [],
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "if (!gdjs.animeRuStore) {",
+            "  gdjs.animeRuStore = {",
+            "    data: {paid:0, price:null, busy:false, review:false}, listeners:[], connected:false,",
+            "    call(action,args=[]) {",
+            "      return new Promise((resolve,reject)=>{",
+            "        if (!globalThis.cordova || typeof cordova.exec !== 'function') {",
+            "          reject(new Error('RuStore доступен в установленной Android-сборке')); return;",
+            "        }",
+            "        cordova.exec(resolve,reject,'AnimeRuStore',action,args);",
+            "      });",
+            "    },",
+            "    subscribe(listener) { this.listeners.push(listener);listener(this.data);this.connect(); },",
+            "    connect() {",
+            "      if(this.connected || !globalThis.cordova || typeof cordova.exec !== 'function')return;",
+            "      this.connected=true;",
+            "      cordova.exec(data=>{",
+            "        this.data=data;",
+            "        for(const listener of this.listeners)listener(data);",
+            "      },error=>{",
+            "        this.connected=false;",
+            "        this.data={...this.data,price:null,busy:false,message:String(error && error.message || error)};",
+            "        for(const listener of this.listeners)listener(this.data);",
+            "      },'AnimeRuStore','subscribe',[]);",
+            "    }",
+            "  };",
+            "  if(typeof document !== 'undefined') document.addEventListener('deviceready',()=>gdjs.animeRuStore.connect(),{once:true});",
+            "}",
+            "gdjs.animeRuStore.connect();",
+            "",
+            "eventsFunctionContext.returnValue = !!gdjs.animeRuStore.data.busy;"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ]
+    },
+    {
+      "name": "PaidBoosts",
+      "fullName": "Число подтверждённых бустов",
+      "functionType": "Expression",
+      "sentence": "Число подтверждённых бустов",
+      "description": "",
+      "group": "RuStore",
+      "parameters": [],
+      "objectGroups": [],
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "if (!gdjs.animeRuStore) {",
+            "  gdjs.animeRuStore = {",
+            "    data: {paid:0, price:null, busy:false, review:false}, listeners:[], connected:false,",
+            "    call(action,args=[]) {",
+            "      return new Promise((resolve,reject)=>{",
+            "        if (!globalThis.cordova || typeof cordova.exec !== 'function') {",
+            "          reject(new Error('RuStore доступен в установленной Android-сборке')); return;",
+            "        }",
+            "        cordova.exec(resolve,reject,'AnimeRuStore',action,args);",
+            "      });",
+            "    },",
+            "    subscribe(listener) { this.listeners.push(listener);listener(this.data);this.connect(); },",
+            "    connect() {",
+            "      if(this.connected || !globalThis.cordova || typeof cordova.exec !== 'function')return;",
+            "      this.connected=true;",
+            "      cordova.exec(data=>{",
+            "        this.data=data;",
+            "        for(const listener of this.listeners)listener(data);",
+            "      },error=>{",
+            "        this.connected=false;",
+            "        this.data={...this.data,price:null,busy:false,message:String(error && error.message || error)};",
+            "        for(const listener of this.listeners)listener(this.data);",
+            "      },'AnimeRuStore','subscribe',[]);",
+            "    }",
+            "  };",
+            "  if(typeof document !== 'undefined') document.addEventListener('deviceready',()=>gdjs.animeRuStore.connect(),{once:true});",
+            "}",
+            "gdjs.animeRuStore.connect();",
+            "",
+            "eventsFunctionContext.returnValue = Number(gdjs.animeRuStore.data.paid)||0;"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ]
+    },
+    {
+      "name": "Price",
+      "fullName": "Цена буста",
+      "functionType": "StringExpression",
+      "sentence": "Цена буста",
+      "description": "",
+      "group": "RuStore",
+      "parameters": [],
+      "objectGroups": [],
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::JsCode",
+          "inlineCode": [
+            "if (!gdjs.animeRuStore) {",
+            "  gdjs.animeRuStore = {",
+            "    data: {paid:0, price:null, busy:false, review:false}, listeners:[], connected:false,",
+            "    call(action,args=[]) {",
+            "      return new Promise((resolve,reject)=>{",
+            "        if (!globalThis.cordova || typeof cordova.exec !== 'function') {",
+            "          reject(new Error('RuStore доступен в установленной Android-сборке')); return;",
+            "        }",
+            "        cordova.exec(resolve,reject,'AnimeRuStore',action,args);",
+            "      });",
+            "    },",
+            "    subscribe(listener) { this.listeners.push(listener);listener(this.data);this.connect(); },",
+            "    connect() {",
+            "      if(this.connected || !globalThis.cordova || typeof cordova.exec !== 'function')return;",
+            "      this.connected=true;",
+            "      cordova.exec(data=>{",
+            "        this.data=data;",
+            "        for(const listener of this.listeners)listener(data);",
+            "      },error=>{",
+            "        this.connected=false;",
+            "        this.data={...this.data,price:null,busy:false,message:String(error && error.message || error)};",
+            "        for(const listener of this.listeners)listener(this.data);",
+            "      },'AnimeRuStore','subscribe',[]);",
+            "    }",
+            "  };",
+            "  if(typeof document !== 'undefined') document.addEventListener('deviceready',()=>gdjs.animeRuStore.connect(),{once:true});",
+            "}",
+            "gdjs.animeRuStore.connect();",
+            "",
+            "eventsFunctionContext.returnValue = gdjs.animeRuStore.data.price || '';"
+          ],
+          "parameterObjects": "",
+          "useStrict": true,
+          "eventsSheetExpanded": false
+        }
+      ]
+    }
+  ],
+  "eventsBasedBehaviors": [],
+  "eventsBasedObjects": [],
+  "eventsFunctionsFolderStructure": {
+    "folderName": "__ROOT",
+    "children": [
+      {
+        "functionName": "Initialize"
+      },
+      {
+        "functionName": "BuyBoost"
+      },
+      {
+        "functionName": "Review"
+      },
+      {
+        "functionName": "Ready"
+      },
+      {
+        "functionName": "Busy"
+      },
+      {
+        "functionName": "PaidBoosts"
+      },
+      {
+        "functionName": "Price"
+      }
+    ]
+  }
+}
