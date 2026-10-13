@@ -1,19 +1,12 @@
 {
   "name": "ru.rustore.gdevelop.pay",
-  "version": "1.0.3",
-  "description": "RuStore Pay SDK для GDevelop/Cordova — автоматическая инициализация через AndroidManifest",
+  "version": "1.1.0",
+  "description": "RuStore native module for GDevelop cloud builds",
+  "license": "MIT",
   "cordova": {
     "id": "ru.rustore.gdevelop.pay",
     "platforms": [
       "android"
     ]
-  },
-  "keywords": [
-    "ecosystem:cordova",
-    "cordova-android",
-    "rustore",
-    "iap",
-    "gdevelop"
-  ],
-  "license": "MIT"
+  }
 }
