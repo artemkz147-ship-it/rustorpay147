@@ -1,74 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<plugin id="ru.rustore.gdevelop.pay" version="1.0.3"
-        xmlns="http://apache.org/cordova/ns/plugins/1.0"
-        xmlns:android="http://schemas.android.com/apk/res/android">
-  <name>RuStore Pay for GDevelop</name>
-  <description>Мост RuStore Pay SDK для GDevelop/Cordova.</description>
-  <license>MIT</license>
-  <keywords>rustore,pay,iap,gdevelop,cordova</keywords>
-
-  <!--
-    Для текущего проекта значение по умолчанию уже заполнено.
-    При установке плагина вручную его можно переопределить:
-    переменной RUSTORE_CONSOLE_APP_ID=XXXXXXXXXX
-  -->
-  <preference name="RUSTORE_CONSOLE_APP_ID" default="2063744155" />
-
-  <engines>
-    <engine name="cordova-android" version=">=12.0.0" />
-  </engines>
-
-  <js-module src="www/RuStoreGDevelopPay.js" name="RuStoreGDevelopPay">
-    <clobbers target="cordova.plugins.RuStoreGDevelopPay" />
-  </js-module>
-
-  <platform name="android">
-    <!-- Строковые ресурсы предотвращают чтение числового App ID как integer. -->
-    <config-file target="res/values/strings.xml" parent="/resources">
-      <string name="rustore_gdevelop_console_app_id" translatable="false">$RUSTORE_CONSOLE_APP_ID</string>
-      <string name="rustore_gdevelop_pay_scheme" translatable="false">$PACKAGE_NAME.rustorepay</string>
-    </config-file>
-
-    <config-file target="res/xml/config.xml" parent="/*">
-      <feature name="RuStoreGDevelopPay">
-        <param name="android-package" value="ru.rustore.gdevelop.pay.RuStoreGDevelopPay" />
-      </feature>
-    </config-file>
-
-    <config-file target="AndroidManifest.xml" parent="/manifest">
-      <uses-permission android:name="android.permission.INTERNET" />
-      <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-      <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    </config-file>
-
-    <config-file target="AndroidManifest.xml" parent="/manifest/application">
-      <!-- Pay SDK 10+ инициализируется автоматически через AndroidManifest. -->
-      <meta-data
-          android:name="console_app_id_value"
-          android:value="@string/rustore_gdevelop_console_app_id" />
-
-      <meta-data
-          android:name="sdk_pay_scheme_value"
-          android:value="@string/rustore_gdevelop_pay_scheme" />
-
-      <activity
-          android:name="ru.rustore.gdevelop.pay.RuStoreGDevelopDeepLinkActivity"
-          android:exported="true"
-          android:launchMode="singleTop"
-          android:theme="@android:style/Theme.NoDisplay">
-        <intent-filter>
-          <action android:name="android.intent.action.VIEW" />
-          <category android:name="android.intent.category.DEFAULT" />
-          <category android:name="android.intent.category.BROWSABLE" />
-          <data android:scheme="$PACKAGE_NAME.rustorepay" />
-        </intent-filter>
-      </activity>
-    </config-file>
-
-    <source-file src="src/android/RuStoreGDevelopPay.java"
-                 target-dir="src/ru/rustore/gdevelop/pay" />
-    <source-file src="src/android/RuStoreGDevelopDeepLinkActivity.java"
-                 target-dir="src/ru/rustore/gdevelop/pay" />
-    <framework src="src/android/rustore-pay.gradle" custom="true" type="gradleReference" />
-  </platform>
-</plugin>
+<?xml version="1.0" encoding="utf-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android" id="ru.rustore.gdevelop.pay" version="1.1.0">
+<name>RuStore cloud module for anime clicker</name><license>MIT</license><preference name="RUSTORE_CONSOLE_APP_ID" default="2063635788"/>
+<engines><engine name="cordova-android" version=">=12.0.0"/></engines>
+<platform name="android">
+<config-file target="res/xml/config.xml" parent="/*"><feature name="AnimeRuStore"><param name="android-package" value="ru.anime.bridge.AnimeRuStore"/></feature></config-file>
+<config-file target="res/values/strings.xml" parent="/resources"><string name="anime_rustore_app_id" translatable="false">$RUSTORE_CONSOLE_APP_ID</string><string name="anime_pay_scheme" translatable="false">$PACKAGE_NAME.pay</string></config-file>
+<config-file target="AndroidManifest.xml" parent="/manifest"><uses-permission android:name="android.permission.INTERNET"/></config-file>
+<config-file target="AndroidManifest.xml" parent="/manifest/application"><meta-data android:name="console_app_id_value" android:value="@string/anime_rustore_app_id"/><meta-data android:name="sdk_pay_scheme_value" android:value="@string/anime_pay_scheme"/></config-file>
+<config-file target="AndroidManifest.xml" parent="/manifest/application/activity[@android:name='MainActivity']"><intent-filter><action android:name="android.intent.action.VIEW"/><category android:name="android.intent.category.DEFAULT"/><category android:name="android.intent.category.BROWSABLE"/><data android:scheme="$PACKAGE_NAME.pay"/></intent-filter></config-file>
+<source-file src="src/android/AnimeRuStore.kt" target-dir="src/ru/anime/bridge"/><source-file src="src/android/PaymentController.kt" target-dir="src/ru/anime/bridge"/><source-file src="src/android/ReviewController.kt" target-dir="src/ru/anime/bridge"/><source-file src="src/android/LegacyMigration.kt" target-dir="src/ru/anime/bridge"/>
+<framework src="src/android/dependencies.gradle" custom="true" type="gradleReference"/>
+</platform></plugin>
